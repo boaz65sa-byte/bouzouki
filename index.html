@@ -2,126 +2,193 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>מאמן הבוזוקי שלי</title>
+    <title>סימולטור בוזוקי - אוסאק</title>
     <style>
-        /* כאן אנחנו מעצבים את הצוואר (CSS) */
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #333; color: white; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background-color: #222; color: white; }
         
-        .neck-container {
-            position: relative;
-            width: 800px;
-            height: 120px;
-            background-color: #5d4037; /* צבע עץ */
-            margin: 50px auto;
-            border: 2px solid #000;
-            border-radius: 10px;
-            display: flex; /* מסדר את הסריגים בשורה */
+        h1 { color: #f1c40f; text-shadow: 2px 2px #000; }
+
+        .neck-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
         }
 
-        /* הסריגים (Frets) */
+        .neck-container {
+            position: relative;
+            width: 850px;
+            height: 160px; /* הצוואר רחב יותר ל-4 מיתרים */
+            background-color: #4e342e; /* צבע עץ כהה */
+            border: 4px solid #1a1a1a;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            display: flex;
+        }
+
+        /* עיצוב הסריגים (הברזלים) */
         .fret {
             flex: 1;
-            border-right: 4px solid silver; /* פס הכסף של הסריג */
+            border-right: 5px solid #bdc3c7; /* צבע כסף */
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            box-sizing: border-box; /* חשוב לחישוב גדלים */
+        }
+        
+        /* הסריג הראשון (0) הוא מיתר פתוח, נעשה אותו קצת אחרת */
+        .fret:first-child {
+            background-color: #3e2723;
+            border-right: 8px solid #ecf0f1; /* הגשר הלבן (Nut) */
+            flex: 0.5; /* צר יותר כי זה רק הראש */
         }
 
         .fret-number {
             position: absolute;
-            bottom: -30px;
-            color: #fff;
-            font-size: 12px;
+            bottom: -35px;
+            width: 100%;
+            text-align: center;
+            color: #bdc3c7;
+            font-weight: bold;
         }
 
-        /* המיתר שלנו (מיתר רה התחתון) */
+        /* --- המיתרים --- */
         .string {
             position: absolute;
-            top: 50%;
             left: 0;
             width: 100%;
-            height: 4px;
-            background-color: #d1d1d1; /* צבע מיתר */
+            height: 3px;
+            background: linear-gradient(to bottom, #999, #fff, #999); /* אפקט מתכתי */
+            box-shadow: 0 2px 2px rgba(0,0,0,0.5);
             z-index: 1;
         }
 
-        /* הנקודה האדומה שתראה לך איפה ללחוץ */
+        /* מיקומים של 4 המיתרים מלמעלה למטה */
+        .string-c { top: 20%; height: 5px; } /* מיתר בס עבה (דו) */
+        .string-f { top: 40%; height: 4px; } /* מיתר פה */
+        .string-a { top: 60%; height: 3px; } /* מיתר לה */
+        .string-d { top: 80%; height: 3px; } /* מיתר רה (סולו) */
+
+        /* --- הנקודה האדומה --- */
         .finger-marker {
-            width: 20px;
-            height: 20px;
-            background-color: red;
+            width: 24px;
+            height: 24px;
+            background-color: #e74c3c; /* אדום בוהק */
             border-radius: 50%;
-            z-index: 2;
-            display: none; /* מוסתר בהתחלה */
-            box-shadow: 0 0 10px red;
+            z-index: 10;
+            position: absolute;
+            top: 74%; /* יושב בדיוק על המיתר התחתון (רה) */
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            box-shadow: 0 0 15px #e74c3c, inset 0 0 5px white;
+            border: 2px solid white;
         }
 
-        .active .finger-marker {
-            display: block; /* מופיע כשיש תור לנגן */
-        }
+        /* מחלקה שמפעילה את הנקודה */
+        .active .finger-marker { display: block; }
 
+        /* הכפתור */
         button {
-            padding: 15px 30px;
-            font-size: 20px;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #f39c12;
+            color: #222;
             border: none;
+            padding: 15px 40px;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 50px;
             cursor: pointer;
-            border-radius: 5px;
-            margin-top: 20px;
+            margin-top: 30px;
+            transition: transform 0.1s;
         }
-        button:hover { background-color: #45a049; }
+        button:active { transform: scale(0.95); }
+
     </style>
 </head>
 <body>
 
-    <h1>🎸 אימון אוסאק - ויזואלי</h1>
-    <p>לחץ על הכפתור כדי לראות את הצליל הבא בתקסים!</p>
+    <h1>🎸 תקסים אוסאק - אימון מודרך</h1>
+    <h3>מיתר תחתון (רה - D)</h3>
 
-    <div class="neck-container" id="neck">
-        <div class="string"></div>
-        <div class="fret" id="fret-0"><span class="fret-number">0 (פתוח)</span><div class="finger-marker"></div></div>
-        <div class="fret" id="fret-1"><span class="fret-number">1</span><div class="finger-marker"></div></div>
-        <div class="fret" id="fret-2"><span class="fret-number">2</span></div> <div class="fret" id="fret-3"><span class="fret-number">3</span><div class="finger-marker"></div></div>
-        <div class="fret" id="fret-4"><span class="fret-number">4</span></div>
-        <div class="fret" id="fret-5"><span class="fret-number">5</span><div class="finger-marker"></div></div>
+    <div class="neck-wrapper">
+        <div class="neck-container" id="neck">
+            
+            <div class="string string-c" title="דו (C)"></div>
+            <div class="string string-f" title="פה (F)"></div>
+            <div class="string string-a" title="לה (A)"></div>
+            <div class="string string-d" title="רה (D) - המיתר שלנו"></div>
+
+            <div class="fret" id="fret-0">
+                <span class="fret-number">0</span>
+                <div class="finger-marker"></div>
+            </div>
+            
+            <div class="fret" id="fret-1">
+                <span class="fret-number">1</span>
+                <div class="finger-marker"></div>
+            </div>
+
+            <div class="fret" id="fret-2">
+                <span class="fret-number">2</span>
+            </div>
+
+            <div class="fret" id="fret-3">
+                <span class="fret-number">3</span>
+                <div class="finger-marker"></div>
+            </div>
+
+            <div class="fret" id="fret-4">
+                <span class="fret-number">4</span>
+            </div>
+
+            <div class="fret" id="fret-5">
+                <span class="fret-number">5</span>
+                <div class="finger-marker"></div>
+            </div>
+             <div class="fret" style="border:none;"></div>
+        </div>
     </div>
 
-    <button onclick="nextNote()">הצג את הצליל הבא >></button>
-    <h2 id="current-note-text">מוכן?</h2>
+    <h2 id="instruction-text" style="height: 30px;">לחץ להתחלה...</h2>
+    <button onclick="nextNote()">🎵 הצליל הבא</button>
 
     <script>
-        // המוח של האפליקציה (JavaScript)
-        // זה הרצף של התקסים שבנינו מקודם
-        const taksimNotes = [0, 1, 3, 5, 3, 1, 3, 1, 0];
-        let currentStep = 0;
+        // המוח של האפליקציה
+        const taksimNotes = [
+            {fret: 0, pick: "למטה V"},
+            {fret: 1, pick: "למעלה ^"},
+            {fret: 3, pick: "למטה V"},
+            {fret: 5, pick: "למעלה ^"},
+            {fret: 3, pick: "למטה V"},
+            {fret: 1, pick: "למעלה ^"},
+            {fret: 3, pick: "למטה V"},
+            {fret: 1, pick: "למעלה ^"},
+            {fret: 0, pick: "למטה (סיום) V"}
+        ];
+        
+        let step = 0;
 
         function nextNote() {
-            // 1. ניקוי: מכבים את כל הנורות הקודמות
+            // ניקוי
             for (let i = 0; i <= 5; i++) {
-                const fret = document.getElementById('fret-' + i);
-                if (fret) fret.classList.remove('active');
+                const f = document.getElementById('fret-' + i);
+                if(f) f.classList.remove('active');
             }
 
-            // 2. בדיקה אם סיימנו את התקסים
-            if (currentStep >= taksimNotes.length) {
-                document.getElementById('current-note-text').innerText = "סיימת! נגן שוב מההתחלה";
-                currentStep = 0; // איפוס
+            if (step >= taksimNotes.length) {
+                document.getElementById('instruction-text').innerText = "👏 סיימת! נגן שוב";
+                step = 0;
                 return;
             }
 
-            // 3. הדלקה: מוצאים את הסריג הנכון ומדליקים אותו
-            const noteToPlay = taksimNotes[currentStep];
-            const activeFret = document.getElementById('fret-' + noteToPlay);
+            const current = taksimNotes[step];
             
-            if (activeFret) {
-                activeFret.classList.add('active');
-                document.getElementById('current-note-text').innerText = "נגן סריג: " + noteToPlay;
-            }
+            // הפעלת הסריג הנכון
+            const el = document.getElementById('fret-' + current.fret);
+            if(el) el.classList.add('active');
 
-            // 4. קידום לשלב הבא
-            currentStep++;
+            // עדכון הטקסט למטה
+            document.getElementById('instruction-text').innerText = 
+                "סריג: " + current.fret + " | פריטה: " + current.pick;
+
+            step++;
         }
     </script>
 
