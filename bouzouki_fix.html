@@ -2,110 +2,124 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>מאמן אוסאק - המלא</title>
+    <title>אוסאק - עברית ולועזית</title>
     <style>
         body {
-            background-color: #111; /* שחור עמוק */
+            background-color: #1a1a1a;
             color: white;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             text-align: center;
             margin: 0;
             padding: 10px;
         }
 
-        h1 { color: #f1c40f; text-shadow: 0 0 10px #f1c40f; }
+        h1 { color: #f1c40f; margin-bottom: 5px; }
 
-        /* הצוואר של הבוזוקי */
+        /* הצוואר */
         .neck {
             display: flex;
             width: 95%;
-            height: 180px;
-            margin: 30px auto;
+            height: 160px;
+            margin: 20px auto;
             border: 4px solid #555;
-            background-color: #222;
-            border-radius: 10px;
+            background-color: #2b2b2b;
+            border-radius: 12px;
             position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         /* סריגים */
         .fret {
             flex: 1;
             border-left: 2px solid #444;
-            border-right: 4px solid #888; /* פס הברזל */
+            border-right: 4px solid #999;
             position: relative;
             display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
+            justify-content: center;
+            align-items: flex-end;
             padding-bottom: 10px;
-            font-size: 24px;
+            font-size: 20px;
+            color: #777;
             font-weight: bold;
-            color: #666;
-            transition: all 0.1s;
         }
 
-        /* מיתר רה (התחתון והחשוב) */
+        /* המיתר */
         .string-d {
             position: absolute;
             width: 100%;
-            height: 6px;
-            background: white;
-            top: 75%; /* מיקום המיתר */
+            height: 4px;
+            background: #ddd;
+            top: 70%;
             left: 0;
-            box-shadow: 0 0 10px white; /* זוהר */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
             z-index: 1;
         }
 
-        /* --- המצב הפעיל (הקסם) --- */
+        /* סריג פעיל */
         .fret.active {
-            background-color: #e74c3c; /* אדום בוהק */
+            background-color: #e74c3c;
+            box-shadow: 0 0 30px #e74c3c;
             color: white;
-            box-shadow: 0 0 40px #e74c3c;
             z-index: 10;
-            border-color: white;
         }
 
-        /* אזור המידע (פריטה והערות) */
-        .info-box {
+        /* --- האזור החדש של השמות --- */
+        .info-panel {
             background-color: #333;
-            padding: 20px;
+            border: 1px solid #555;
             border-radius: 15px;
-            margin: 20px auto;
+            padding: 15px;
             width: 80%;
-            border: 2px solid #555;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .pick-sign {
-            font-size: 60px;
+        /* שם בעברית - גדול */
+        .hebrew-name {
+            font-size: 36px;
             font-weight: bold;
-            margin: 10px 0;
+            color: #f39c12; /* כתום זהב */
         }
-        
-        /* צבעים לחצים */
-        .down { color: #2ecc71; text-shadow: 0 0 10px #2ecc71; } /* ירוק למטה */
-        .up { color: #3498db; text-shadow: 0 0 10px #3498db; } /* כחול למעלה */
+
+        /* שם בלועזית - קטן יותר */
+        .english-name {
+            font-size: 24px;
+            color: #3498db; /* כחול */
+            font-family: monospace; /* פונט בסגנון קוד */
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        /* חץ הפריטה */
+        .pick-arrow {
+            font-size: 50px;
+            margin-top: 5px;
+        }
+        .down { color: #2ecc71; }
+        .up { color: #e74c3c; } /* אדום למעלה */
 
         button {
-            background: linear-gradient(to bottom, #f39c12, #d35400);
-            color: white;
-            font-size: 24px;
-            padding: 15px 60px;
+            padding: 15px 50px;
+            font-size: 22px;
+            background: #fff;
+            color: #333;
             border: none;
             border-radius: 50px;
+            font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+            margin-top: 20px;
         }
-        button:active { transform: scale(0.95); }
-
     </style>
 </head>
 <body>
 
-    <h1>🎸 תקסים אוסאק (Ousaks)</h1>
-    <p>עקוב אחרי החצים: ירוק = מכה למטה, כחול = מכה למעלה</p>
+    <h1>🎸 אימון שמות תווים</h1>
     
     <div class="neck">
-        <div class="string-d"></div> <div class="fret" id="f0">0</div>
+        <div class="string-d"></div>
+        <div class="fret" id="f0">0</div>
         <div class="fret" id="f1">1</div>
         <div class="fret" id="f2">2</div>
         <div class="fret" id="f3">3</div>
@@ -113,62 +127,58 @@
         <div class="fret" id="f5">5</div>
     </div>
 
-    <div class="info-box">
-        <div id="note-text" style="font-size: 22px; color: #ccc;">מוכן?</div>
-        <div id="pick-display" class="pick-sign">--</div>
+    <div class="info-panel">
+        <div class="hebrew-name" id="display-he">מוכן?</div>
+        <div class="english-name" id="display-en">Ready?</div>
+        <div class="pick-arrow" id="display-pick">--</div>
     </div>
 
-    <button onclick="nextStep()">הצליל הבא >></button>
+    <button onclick="nextNote()">הצליל הבא >></button>
 
     <script>
-        // --- כאן נמצא התקסים שלך ---
-        // אתה יכול לשנות את זה מתי שתרצה!
+        // --- מסד הנתונים המשודרג ---
+        // הוספנו לכל שורה: nameHE (עברית) ו-nameEN (לועזית)
+        
         const melody = [
-            { fret: 0, pick: "⬇️", type: "down", text: "רה (פתוח) - התחלה עמוקה" },
-            { fret: 1, pick: "⬆️", type: "up",   text: "מי במול - הלב של האוסאק" },
-            { fret: 3, pick: "⬇️", type: "down", text: "פה - ממשיכים לטפס" },
-            { fret: 5, pick: "⬆️", type: "up",   text: "סול - הצעקה הגבוהה!" },
-            { fret: 3, pick: "⬇️", type: "down", text: "פה - ירידה חזרה" },
-            { fret: 1, pick: "⬆️", type: "up",   text: "מי במול - שוב המתח" },
-            { fret: 3, pick: "⬇️", type: "down", text: "פה - קישוט קטן" },
-            { fret: 1, pick: "⬆️", type: "up",   text: "מי במול - הכנה לסיום" },
-            { fret: 0, pick: "⬇️", type: "down", text: "רה - סיום ורזולוציה..." }
+            { fret: 0, pick: "⬇️", type: "down", nameHE: "רה",       nameEN: "D (Re)" },
+            { fret: 1, pick: "⬆️", type: "up",   nameHE: "מי במול",  nameEN: "Eb (Mi flat)" },
+            { fret: 3, pick: "⬇️", type: "down", nameHE: "פה",       nameEN: "F (Fa)" },
+            { fret: 5, pick: "⬆️", type: "up",   nameHE: "סול",      nameEN: "G (Sol)" },
+            { fret: 3, pick: "⬇️", type: "down", nameHE: "פה",       nameEN: "F" },
+            { fret: 1, pick: "⬆️", type: "up",   nameHE: "מי במול",  nameEN: "Eb" },
+            { fret: 0, pick: "⬇️", type: "down", nameHE: "רה",       nameEN: "D" }
         ];
 
-        let currentIndex = 0;
+        let index = 0;
 
-        function nextStep() {
-            // 1. ניקוי (כיבוי האורות הקודמים)
+        function nextNote() {
+            // ניקוי
             for(let i=0; i<=5; i++) {
                 document.getElementById('f'+i).classList.remove('active');
             }
 
-            // 2. בדיקת סיום
-            if (currentIndex >= melody.length) {
-                document.getElementById('note-text').innerText = "👏👏 סיימת! נגן שוב";
-                document.getElementById('pick-display').innerText = "↺";
-                currentIndex = 0;
+            if(index >= melody.length) {
+                document.getElementById('display-he').innerText = "סיימנו!";
+                document.getElementById('display-en').innerText = "Done";
+                document.getElementById('display-pick').innerText = "✅";
+                index = 0;
                 return;
             }
 
-            // 3. שליפת הנתונים הנוכחיים
-            const step = melody[currentIndex];
+            // שליפת הנתונים
+            const current = melody[index];
 
-            // 4. הדלקת הסריג הנכון
-            const activeFret = document.getElementById('f' + step.fret);
-            if (activeFret) activeFret.classList.add('active');
-
-            // 5. עדכון הטקסט והחצים
-            document.getElementById('note-text').innerText = step.text;
+            // עדכון המסך (עברית, לועזית, חץ)
+            document.getElementById('f'+current.fret).classList.add('active');
             
-            const pickDiv = document.getElementById('pick-display');
-            pickDiv.innerText = step.pick;
+            document.getElementById('display-he').innerText = current.nameHE;
+            document.getElementById('display-en').innerText = current.nameEN;
             
-            // איפוס צבעים לחץ
-            pickDiv.className = "pick-sign " + step.type;
+            const arrow = document.getElementById('display-pick');
+            arrow.innerText = current.pick;
+            arrow.className = "pick-arrow " + current.type;
 
-            // 6. הלאה
-            currentIndex++;
+            index++;
         }
     </script>
 
