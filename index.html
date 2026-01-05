@@ -2,164 +2,226 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>בוזוקי 4 מיתרים - ברור</title>
+    <title>תקסים אוסאק - המקצוען</title>
     <style>
-        body { font-family: sans-serif; text-align: center; background-color: #222; color: white; }
+        body { font-family: 'Segoe UI', sans-serif; text-align: center; background-color: #1a1a1a; color: white; margin: 0; padding: 20px; }
         
-        .neck-wrapper {
+        h1 { color: #f1c40f; margin-bottom: 10px; }
+        p { color: #bbb; margin-top: 0; }
+
+        .stage {
             display: flex;
-            justify-content: center;
-            margin-top: 50px;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
         }
 
+        /* --- הצוואר --- */
         .neck-container {
             position: relative;
-            width: 800px;
-            height: 200px; /* צוואר גבוה וברור */
-            background-color: #5d4037; /* חום עץ */
-            border: 4px solid #000;
-            border-radius: 10px;
-            display: flex; /* בשביל הסריגים */
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            width: 850px;
+            height: 220px;
+            background-color: #4e342e; /* עץ */
+            border: 6px solid #333;
+            border-radius: 12px;
+            display: flex;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            overflow: hidden; /* שלא יצאו דברים החוצה */
         }
 
-        /* --- הסריגים (הפסים לאורך) --- */
+        /* סריגים */
         .fret {
             flex: 1;
-            border-left: 2px solid rgba(0,0,0,0.3); /* צל קטן */
-            border-right: 4px solid #C0C0C0; /* פס הברזל */
+            border-right: 5px solid #bdc3c7; /* פס מתכת */
             position: relative;
-            z-index: 5; /* שיהיו מעל העץ */
+            z-index: 5;
         }
-        
-        .fret-number {
+        .fret:first-child { flex: 0.6; background-color: #3e2723; border-right: 10px solid #ecf0f1; } /* נאט */
+
+        .fret-num {
             position: absolute;
-            bottom: -30px;
+            bottom: 5px;
             width: 100%;
             text-align: center;
-            font-weight: bold;
-            color: #ddd;
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
         }
 
-        /* --- המיתרים (הפסים לרוחב) --- */
+        /* מיתרים */
         .string {
             position: absolute;
             left: 0;
             width: 100%;
-            background-color: #fff; /* לבן בוהק! */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.5); /* צל למיתר שיראה תלת מימד */
-            z-index: 10; /* מעל הסריגים */
-            display: flex;
-            align-items: center;
+            background-color: #eee;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.6);
+            z-index: 10;
         }
-
-        /* שמות המיתרים */
-        .string::before {
-            content: attr(data-name); /* לוקח את השם מה-HTML */
+        .string::after {
+            content: attr(data-note);
             position: absolute;
-            right: -40px; /* מזיז ימינה מחוץ לצוואר */
-            color: #ff9800;
+            right: 10px;
+            top: -25px;
+            color: #f39c12;
             font-weight: bold;
-            font-size: 18px;
         }
 
-        /* מיקומים מרווחים היטב */
-        .string-1 { top: 20%; height: 6px; } /* דו - עבה */
-        .string-2 { top: 40%; height: 5px; } /* פה */
-        .string-3 { top: 60%; height: 4px; } /* לה */
-        .string-4 { top: 80%; height: 4px; } /* רה - עליו מנגנים */
+        .s1 { top: 20%; height: 6px; } /* דו */
+        .s2 { top: 40%; height: 5px; } /* פה */
+        .s3 { top: 60%; height: 4px; } /* לה */
+        .s4 { top: 80%; height: 4px; border-bottom: 1px solid #ccc; } /* רה - עליו מנגנים */
 
-        /* --- הנקודה האדומה --- */
-        .finger-marker {
-            width: 25px;
-            height: 25px;
-            background-color: #ff0000;
-            border: 2px solid white;
+        /* --- הסימון האדום --- */
+        .marker {
+            width: 28px;
+            height: 28px;
+            background-color: #e74c3c;
+            border: 3px solid white;
             border-radius: 50%;
             position: absolute;
-            top: 76%; /* יושב על המיתר התחתון */
+            top: 77%; /* על מיתר רה */
             left: 50%;
             transform: translateX(-50%);
-            z-index: 20; /* הכי גבוה שיש */
+            z-index: 20;
             display: none;
-            box-shadow: 0 0 10px #ff0000;
+            box-shadow: 0 0 20px #e74c3c;
+        }
+        .active .marker { display: block; animation: pop 0.2s ease-out; }
+
+        @keyframes pop {
+            0% { transform: translateX(-50%) scale(0); }
+            80% { transform: translateX(-50%) scale(1.2); }
+            100% { transform: translateX(-50%) scale(1); }
         }
 
-        .active .finger-marker { display: block; }
+        /* --- אזור ההוראות (למטה/למעלה) --- */
+        .info-panel {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
+            width: 600px;
+            border: 1px solid #444;
+        }
+
+        #pick-direction {
+            font-size: 50px;
+            font-weight: bold;
+            color: #2ecc71;
+            margin: 10px 0;
+        }
+
+        #note-desc {
+            font-size: 24px;
+            color: #f39c12;
+        }
 
         button {
-            padding: 15px 40px;
+            padding: 15px 50px;
             font-size: 24px;
-            background: #27ae60;
-            color: white;
+            background: linear-gradient(to bottom, #f1c40f, #f39c12);
+            color: #222;
             border: none;
-            border-radius: 8px;
+            border-radius: 50px;
             cursor: pointer;
-            margin-top: 50px;
+            margin-top: 20px;
+            font-weight: bold;
+            box-shadow: 0 5px 0 #d35400;
         }
+        button:active { transform: translateY(5px); box-shadow: none; }
+
     </style>
 </head>
 <body>
 
-    <h1>אימון אוסאק - 4 מיתרים</h1>
-    <p>שים לב: מנגנים רק על המיתר התחתון (RE)</p>
+    <h1>🎻 תקסים אוסאק - נשמה</h1>
+    <p>נגן לאט, הקפד על כיוון הפריטה!</p>
 
-    <div class="neck-wrapper">
+    <div class="stage">
         <div class="neck-container">
-            
-            <div class="string string-1" data-name="DO (C)"></div>
-            <div class="string string-2" data-name="FA (F)"></div>
-            <div class="string string-3" data-name="LA (A)"></div>
-            <div class="string string-4" data-name="RE (D)"></div>
+            <div class="string s1" data-note="Do"></div>
+            <div class="string s2" data-note="Fa"></div>
+            <div class="string s3" data-note="La"></div>
+            <div class="string s4" data-note="Re"></div>
 
-            <div class="fret" id="fret-0">
-                <span class="fret-number">0</span>
-                <div class="finger-marker"></div>
-            </div>
-            <div class="fret" id="fret-1">
-                <span class="fret-number">1</span>
-                <div class="finger-marker"></div>
-            </div>
-            <div class="fret" id="fret-2"><span class="fret-number">2</span></div>
-            <div class="fret" id="fret-3">
-                <span class="fret-number">3</span>
-                <div class="finger-marker"></div>
-            </div>
-            <div class="fret" id="fret-4"><span class="fret-number">4</span></div>
-            <div class="fret" id="fret-5">
-                <span class="fret-number">5</span>
-                <div class="finger-marker"></div>
-            </div>
+            <div class="fret" id="f-0"><span class="fret-num">0</span><div class="marker"></div></div>
+            <div class="fret" id="f-1"><span class="fret-num">1</span><div class="marker"></div></div>
+            <div class="fret" id="f-2"><span class="fret-num">2</span></div>
+            <div class="fret" id="f-3"><span class="fret-num">3</span><div class="marker"></div></div>
+            <div class="fret" id="f-4"><span class="fret-num">4</span></div>
+            <div class="fret" id="f-5"><span class="fret-num">5</span><div class="marker"></div></div>
+            <div class="fret" id="f-6"><span class="fret-num">6</span></div>
+            <div class="fret" id="f-7"><span class="fret-num">7</span></div>
         </div>
+
+        <div class="info-panel">
+            <div id="note-desc">לחץ על הכפתור כדי להתחיל</div>
+            <div id="pick-direction">--</div>
+        </div>
+
+        <button onclick="playNext()" id="btn">🎵 הצליל הבא</button>
     </div>
 
-    <h2 id="msg">לחץ להתחלה...</h2>
-    <button onclick="next()">הצליל הבא >></button>
-
     <script>
-        const notes = [0, 1, 3, 5, 3, 1, 3, 1, 0];
-        let i = 0;
+        // --- זה המוח של התקסים שלך ---
+        // כאן אנחנו מגדירים מערך של אובייקטים.
+        // כל אובייקט מכיל: איזה סריג (fret), איזה כיוון פריטה (dir), ומה האייקון (icon).
+        
+        const melody = [
+            { fret: 0, dir: "למטה", icon: "⬇️", text: "פתיחה (רה)" },
+            { fret: 1, dir: "למעלה", icon: "⬆️", text: "טיפוס קטן (מי ב)" },
+            { fret: 3, dir: "למטה", icon: "⬇️", text: "ממשיכים (פה)" },
+            { fret: 0, dir: "למעלה", icon: "⬆️", text: "חזרה מהירה ל-0" },
+            { fret: 5, dir: "למטה", icon: "⬇️", text: "הצעקה! (סול גבוה)" },
+            { fret: 3, dir: "למעלה", icon: "⬆️", text: "ירידה (פה)" },
+            { fret: 1, dir: "למטה", icon: "⬇️", text: "מתח (מי ב)" },
+            { fret: 0, dir: "למעלה", icon: "⬆️", text: "סיום המשפט" },
+            // סיום דרמטי
+            { fret: 1, dir: "למטה", icon: "⬇️", text: "קישוט אחרון (מי ב)" },
+            { fret: 0, dir: "למעלה", icon: "⬆️", text: "סוף (תן לזה לצלצל...)" }
+        ];
 
-        function next() {
-            // ניקוי
-            for(let x=0; x<=5; x++) {
-                let el = document.getElementById('fret-'+x);
+        let index = 0;
+
+        function playNext() {
+            // 1. ניקוי הלוח - מכבים הכל
+            for(let i=0; i<=7; i++) {
+                let el = document.getElementById('f-costume-'+i) || document.getElementById('f-'+i);
                 if(el) el.classList.remove('active');
             }
 
-            if(i >= notes.length) {
-                document.getElementById('msg').innerText = "סיימנו! נגן שוב";
-                i = 0;
+            // 2. בדיקה אם נגמר השיר
+            if (index >= melody.length) {
+                document.getElementById('note-desc').innerText = "👏👏 סיימת! לחץ לנגן שוב";
+                document.getElementById('pick-direction').innerText = "↺";
+                document.getElementById('btn').innerText = "התחל מחדש";
+                index = 0;
                 return;
             }
 
-            let currentFret = notes[i];
-            document.getElementById('fret-'+currentFret).classList.add('active');
+            // 3. לוקחים את הצעד הנוכחי
+            const step = melody[index];
+
+            // 4. מדליקים את הסריג הנכון
+            const fretElement = document.getElementById('f-' + step.fret);
+            if(fretElement) fretElement.classList.add('active');
+
+            // 5. מעדכנים את הטקסט למשתמש
+            document.getElementById('note-desc').innerText = step.text + " (סריג " + step.fret + ")";
             
-            let pickDirection = (i % 2 === 0) ? "מטה V" : "מעלה ^";
-            document.getElementById('msg').innerText = "סריג: " + currentFret + " (" + pickDirection + ")";
+            const pickDiv = document.getElementById('pick-direction');
+            pickDiv.innerText = step.dir + " " + step.icon;
             
-            i++;
+            // שינוי צבע לפי כיוון הפריטה
+            if (step.icon === "⬇️") {
+                pickDiv.style.color = "#2ecc71"; // ירוק למטה
+            } else {
+                pickDiv.style.color = "#3498db"; // כחול למעלה
+            }
+
+            document.getElementById('btn').innerText = "הבא >>";
+
+            // 6. מתכוננים לצעד הבא
+            index++;
         }
     </script>
 
