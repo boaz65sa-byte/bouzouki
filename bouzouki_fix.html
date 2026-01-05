@@ -2,185 +2,205 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>אוסאק - עברית ולועזית</title>
+    <title>בוזוקי עומד (Vertical)</title>
     <style>
         body {
-            background-color: #1a1a1a;
+            background-color: #222;
             color: white;
             font-family: 'Segoe UI', sans-serif;
             text-align: center;
             margin: 0;
-            padding: 10px;
+            display: flex; /* מסדר את כל העמוד */
+            justify-content: center; /* ממקם הכל באמצע */
+            align-items: flex-start;
+            height: 100vh;
         }
 
-        h1 { color: #f1c40f; margin-bottom: 5px; }
+        /* עטיפה לכל התוכן כדי שיהיה מסודר */
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 50px; /* רווח בין הצוואר לטקסט */
+            margin-top: 20px;
+        }
 
-        /* הצוואר */
+        /* --- הצוואר העומד --- */
         .neck {
             display: flex;
-            width: 95%;
-            height: 160px;
-            margin: 20px auto;
-            border: 4px solid #555;
-            background-color: #2b2b2b;
-            border-radius: 12px;
+            flex-direction: column; /* הסוד! הופך את זה לאנכי */
+            width: 140px; /* צר יותר */
+            height: 500px; /* גבוה */
+            background-color: #3e2723; /* עץ כהה */
+            border: 4px solid #111;
+            border-radius: 10px;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
         }
 
         /* סריגים */
         .fret {
-            flex: 1;
-            border-left: 2px solid #444;
-            border-right: 4px solid #999;
+            flex: 1; /* כולם שווים בגובה */
+            border-bottom: 4px solid #C0C0C0; /* פס הברזל עכשיו למטה */
             position: relative;
             display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 10px;
-            font-size: 20px;
-            color: #777;
-            font-weight: bold;
+            align-items: center; /* ממקם מספר אנכית */
+            justify-content: flex-start; /* ממקם מספר בצד */
+            padding-right: 10px;
+        }
+        
+        /* סריג 0 (הנאט) */
+        .fret:first-child {
+            background-color: #222;
+            border-bottom: 8px solid white;
+            flex: 0.6; /* קצת יותר נמוך */
+            color: white;
         }
 
-        /* המיתר */
+        .fret-num {
+            font-size: 18px;
+            color: #aaa;
+            font-weight: bold;
+            position: absolute;
+            right: 10px; /* המספרים בצד ימין */
+        }
+
+        /* המיתר האנכי */
         .string-d {
             position: absolute;
-            width: 100%;
-            height: 4px;
-            background: #ddd;
-            top: 70%;
-            left: 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-            z-index: 1;
+            width: 6px; /* עובי המיתר */
+            height: 100%; /* אורך מלא */
+            background: linear-gradient(to right, #ccc, #fff, #ccc);
+            left: 50%; /* בדיוק באמצע */
+            transform: translateX(-50%);
+            z-index: 5;
         }
 
-        /* סריג פעיל */
+        /* --- הסמן הפעיל --- */
         .fret.active {
-            background-color: #e74c3c;
-            box-shadow: 0 0 30px #e74c3c;
-            color: white;
+            background-color: #d35400; /* כתום חזק */
+        }
+        /* הנקודה האדומה */
+        .marker {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            border-radius: 50%;
+            border: 3px solid white;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
             z-index: 10;
+            box-shadow: 0 0 15px red;
         }
+        .fret.active .marker { display: block; }
 
-        /* --- האזור החדש של השמות --- */
+
+        /* --- פאנל המידע בצד --- */
         .info-panel {
-            background-color: #333;
-            border: 1px solid #555;
-            border-radius: 15px;
-            padding: 15px;
-            width: 80%;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            text-align: center;
+            background: #333;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            width: 300px;
         }
 
-        /* שם בעברית - גדול */
-        .hebrew-name {
-            font-size: 36px;
+        h1 { margin: 0 0 20px 0; color: #f1c40f; }
+        
+        .note-display {
+            font-size: 40px;
             font-weight: bold;
-            color: #f39c12; /* כתום זהב */
-        }
-
-        /* שם בלועזית - קטן יותר */
-        .english-name {
-            font-size: 24px;
-            color: #3498db; /* כחול */
-            font-family: monospace; /* פונט בסגנון קוד */
-            letter-spacing: 2px;
+            color: #fff;
             margin-bottom: 10px;
         }
-
-        /* חץ הפריטה */
+        
         .pick-arrow {
-            font-size: 50px;
-            margin-top: 5px;
+            font-size: 80px;
+            margin: 10px 0;
         }
         .down { color: #2ecc71; }
-        .up { color: #e74c3c; } /* אדום למעלה */
+        .up { color: #3498db; }
 
         button {
-            padding: 15px 50px;
-            font-size: 22px;
-            background: #fff;
-            color: #333;
+            padding: 20px 40px;
+            font-size: 24px;
+            background: #f1c40f;
             border: none;
-            border-radius: 50px;
+            border-radius: 10px;
             font-weight: bold;
             cursor: pointer;
             margin-top: 20px;
+            width: 100%;
         }
+        button:hover { background: #f39c12; }
+
     </style>
 </head>
 <body>
 
-    <h1>🎸 אימון שמות תווים</h1>
+<div class="container">
     
     <div class="neck">
         <div class="string-d"></div>
-        <div class="fret" id="f0">0</div>
-        <div class="fret" id="f1">1</div>
-        <div class="fret" id="f2">2</div>
-        <div class="fret" id="f3">3</div>
-        <div class="fret" id="f4">4</div>
-        <div class="fret" id="f5">5</div>
+
+        <div class="fret" id="f0"><span class="fret-num">0</span><div class="marker"></div></div>
+        <div class="fret" id="f1"><span class="fret-num">1</span><div class="marker"></div></div>
+        <div class="fret" id="f2"><span class="fret-num">2</span></div>
+        <div class="fret" id="f3"><span class="fret-num">3</span><div class="marker"></div></div>
+        <div class="fret" id="f4"><span class="fret-num">4</span></div>
+        <div class="fret" id="f5"><span class="fret-num">5</span><div class="marker"></div></div>
+        <div class="fret" id="f6"><span class="fret-num">6</span></div>
     </div>
 
     <div class="info-panel">
-        <div class="hebrew-name" id="display-he">מוכן?</div>
-        <div class="english-name" id="display-en">Ready?</div>
-        <div class="pick-arrow" id="display-pick">--</div>
+        <h1>תקסים עומד</h1>
+        <div class="note-display" id="note-name">מוכן?</div>
+        <div class="pick-arrow" id="pick-dir">--</div>
+        <button onclick="next()">הצליל הבא</button>
     </div>
 
-    <button onclick="nextNote()">הצליל הבא >></button>
+</div>
 
-    <script>
-        // --- מסד הנתונים המשודרג ---
-        // הוספנו לכל שורה: nameHE (עברית) ו-nameEN (לועזית)
-        
-        const melody = [
-            { fret: 0, pick: "⬇️", type: "down", nameHE: "רה",       nameEN: "D (Re)" },
-            { fret: 1, pick: "⬆️", type: "up",   nameHE: "מי במול",  nameEN: "Eb (Mi flat)" },
-            { fret: 3, pick: "⬇️", type: "down", nameHE: "פה",       nameEN: "F (Fa)" },
-            { fret: 5, pick: "⬆️", type: "up",   nameHE: "סול",      nameEN: "G (Sol)" },
-            { fret: 3, pick: "⬇️", type: "down", nameHE: "פה",       nameEN: "F" },
-            { fret: 1, pick: "⬆️", type: "up",   nameHE: "מי במול",  nameEN: "Eb" },
-            { fret: 0, pick: "⬇️", type: "down", nameHE: "רה",       nameEN: "D" }
-        ];
+<script>
+    const melody = [
+        { f: 0, pick: "⬇️", name: "רה (D)", type: "down" },
+        { f: 1, pick: "⬆️", name: "מי ב' (Eb)", type: "up" },
+        { f: 3, pick: "⬇️", name: "פה (F)", type: "down" },
+        { f: 5, pick: "⬆️", name: "סול (G)", type: "up" },
+        { f: 3, pick: "⬇️", name: "פה (F)", type: "down" },
+        { f: 1, pick: "⬆️", name: "מי ב' (Eb)", type: "up" },
+        { f: 0, pick: "⬇️", name: "רה (D)", type: "down" }
+    ];
 
-        let index = 0;
+    let i = 0;
 
-        function nextNote() {
-            // ניקוי
-            for(let i=0; i<=5; i++) {
-                document.getElementById('f'+i).classList.remove('active');
-            }
-
-            if(index >= melody.length) {
-                document.getElementById('display-he').innerText = "סיימנו!";
-                document.getElementById('display-en').innerText = "Done";
-                document.getElementById('display-pick').innerText = "✅";
-                index = 0;
-                return;
-            }
-
-            // שליפת הנתונים
-            const current = melody[index];
-
-            // עדכון המסך (עברית, לועזית, חץ)
-            document.getElementById('f'+current.fret).classList.add('active');
-            
-            document.getElementById('display-he').innerText = current.nameHE;
-            document.getElementById('display-en').innerText = current.nameEN;
-            
-            const arrow = document.getElementById('display-pick');
-            arrow.innerText = current.pick;
-            arrow.className = "pick-arrow " + current.type;
-
-            index++;
+    function next() {
+        // ניקוי
+        for(let x=0; x<=6; x++) {
+            document.getElementById('f'+x).classList.remove('active');
         }
-    </script>
+
+        if(i >= melody.length) {
+            document.getElementById('note-name').innerText = "סיימנו!";
+            document.getElementById('pick-dir').innerText = "↺";
+            i = 0;
+            return;
+        }
+
+        let curr = melody[i];
+
+        // הפעלה
+        document.getElementById('f'+curr.f).classList.add('active');
+        document.getElementById('note-name').innerText = curr.name;
+        
+        let arrow = document.getElementById('pick-dir');
+        arrow.innerText = curr.pick;
+        arrow.className = "pick-arrow " + curr.type;
+
+        i++;
+    }
+</script>
 
 </body>
 </html>
