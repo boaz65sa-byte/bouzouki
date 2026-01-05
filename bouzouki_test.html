@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>בוזוקי עומד - טסט</title>
+    <style>
+        body {
+            background-color: #222;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding-top: 20px;
+        }
+
+        .container { display: flex; gap: 50px; }
+
+        /* הצוואר העומד */
+        .neck {
+            display: flex;
+            flex-direction: column; /* עומד! */
+            width: 120px;
+            height: 400px;
+            background: #4e342e;
+            border: 4px solid #000;
+            position: relative;
+        }
+
+        .fret {
+            flex: 1;
+            border-bottom: 4px solid silver;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* מספר מימין */
+            padding-right: 5px;
+            font-weight: bold;
+            color: #ccc;
+        }
+
+        /* מיתר */
+        .string {
+            position: absolute;
+            left: 50%;
+            height: 100%;
+            width: 6px;
+            background: white;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        /* נקודה אדומה */
+        .marker {
+            width: 25px; height: 25px; background: red;
+            border-radius: 50%; border: 2px solid white;
+            position: absolute; left: 50%; transform: translateX(-50%);
+            z-index: 10; display: none;
+        }
+        .fret.active .marker { display: block; }
+
+        /* פאנל שליטה */
+        .panel { text-align: center; width: 250px; }
+        .arrow { font-size: 80px; margin: 10px 0; }
+        .down { color: #2ecc71; }
+        .up { color: #3498db; }
+        
+        button {
+            padding: 20px; font-size: 24px; background: yellow; 
+            border: none; cursor: pointer; width: 100%; border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="neck">
+        <div class="string"></div>
+        <div class="fret" id="f0">0<div class="marker"></div></div>
+        <div class="fret" id="f1">1<div class="marker"></div></div>
+        <div class="fret" id="f2">2</div>
+        <div class="fret" id="f3">3<div class="marker"></div></div>
+        <div class="fret" id="f4">4</div>
+        <div class="fret" id="f5">5<div class="marker"></div></div>
+    </div>
+
+    <div class="panel">
+        <h1 id="txt">מוכן?</h1>
+        <div id="arr" class="arrow">--</div>
+        <button onclick="next()">הבא >></button>
+    </div>
+</div>
+
+<script>
+    const notes = [
+        {f:0, t:"רה", a:"⬇️", c:"down"},
+        {f:1, t:"מי ב'", a:"⬆️", c:"up"},
+        {f:3, t:"פה", a:"⬇️", c:"down"},
+        {f:5, t:"סול!", a:"⬆️", c:"up"},
+        {f:3, t:"פה", a:"⬇️", c:"down"},
+        {f:1, t:"מי ב'", a:"⬆️", c:"up"},
+        {f:0, t:"רה", a:"⬇️", c:"down"}
+    ];
+    let i=0;
+
+    function next(){
+        for(let x=0;x<=5;x++) document.getElementById('f'+x).classList.remove('active');
+        
+        if(i>=notes.length) { 
+            document.getElementById('txt').innerText="סוף!"; 
+            i=0; return; 
+        }
+        
+        let n = notes[i];
+        document.getElementById('f'+n.f).classList.add('active');
+        document.getElementById('txt').innerText = n.t;
+        let ar = document.getElementById('arr');
+        ar.innerText = n.a;
+        ar.className = "arrow " + n.c;
+        i++;
+    }
+</script>
+
+</body>
+</html>
