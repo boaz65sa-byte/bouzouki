@@ -2,14 +2,12 @@
 <html lang="he" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>Bouzouki Studio: FINAL ELITE</title>
+    <title>Bouzouki Final Fixed</title>
     <style>
         body {
-            background-color: #0f0f0f; 
-            color: #ecf0f1;
+            background-color: #0f0f0f; color: #ecf0f1;
             font-family: 'Segoe UI', system-ui, sans-serif;
-            text-align: center;
-            margin: 0; padding: 20px;
+            text-align: center; margin: 0; padding: 20px;
             display: flex; flex-direction: column; align-items: center; user-select: none;
         }
 
@@ -21,10 +19,8 @@
         }
         .subtitle { color: #888; margin-bottom: 25px; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
 
-        /* --- סרגל כלים עליון (יבוא) --- */
-        .import-toolbar {
-            display: flex; gap: 15px; margin-bottom: 25px;
-        }
+        /* --- כפתורי יבוא --- */
+        .import-toolbar { display: flex; gap: 15px; margin-bottom: 25px; }
         .btn-tool {
             background: linear-gradient(145deg, #2c3e50, #222);
             color: #ccc; border: 1px solid #444; padding: 10px 20px; 
@@ -32,9 +28,8 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         .btn-tool:hover { background: #34495e; color: white; border-color: #d4af37; }
-        .btn-tool i { margin-left: 8px; }
 
-        /* --- דשבורד ראשי --- */
+        /* --- דשבורד --- */
         .dashboard {
             background: linear-gradient(145deg, #1a1a1a, #222);
             padding: 20px 30px; border-radius: 20px;
@@ -55,7 +50,7 @@
             text-align: center; font-weight: bold; font-size: 15px; outline: none; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        /* מיתרים - כפתורים */
+        /* מיתרים */
         .str-toggles { display: flex; gap: 5px; }
         .str-btn {
             width: 32px; height: 32px; border-radius: 6px; background: #333; color: #666; font-size: 14px;
@@ -68,16 +63,14 @@
         /* אצבעות */
         .finger-sel { display: flex; background: #080808; border-radius: 6px; padding: 3px; border: 1px solid #444; }
         .f-opt { padding: 5px 10px; cursor: pointer; color: #555; font-weight: bold; font-size: 13px; border-radius: 4px; transition: 0.2s; }
-        .f-opt:hover { color: #888; }
         .f-opt.selected { background: #d4af37; color: black; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 
-        /* כפתורי עריכה קטנים */
+        /* עריכה */
         .mode-actions { display: flex; gap: 5px; }
         .btn-small { background: #444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; transition:0.2s; }
-        .btn-small:hover { background: #555; transform: translateY(-2px); }
         .btn-small.active { background: #3498db; box-shadow: 0 0 10px #3498db; }
 
-        /* כפתור פליי ראשי */
+        /* פליי */
         .btn-play {
             width: 60px; height: 60px; border-radius: 50%; border: none; font-size: 26px; cursor: pointer;
             transition: 0.2s; box-shadow: 0 10px 20px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
@@ -86,33 +79,28 @@
         .btn-play.playing { background: linear-gradient(145deg, #c0392b, #922b21); color: white; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(192, 57, 43, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(192, 57, 43, 0); } }
 
-        /* --- הגריף (ELITE DESIGN RESTORED) --- */
+        /* --- גריף (Elite) --- */
         .scroll-wrapper {
             width: 100%; max-width: 1400px; padding: 10px; margin-bottom: 30px;
             background: #050505; border-radius: 15px; border: 2px solid #333;
             overflow-x: auto; scrollbar-width: thin; scrollbar-color: #555 #111;
             box-shadow: inset 0 0 30px #000;
         }
-        
         .neck {
             position: relative; height: 280px; display: inline-flex; 
-            /* טקסטורת עץ יוקרתית */
             background-color: #3e2723;
             background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 10px);
             margin: 15px 0; border: 6px solid #1a1a1a; border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* מיתרים ריאליסטיים */
         .string-line { position: absolute; left: 0; width: 100%; pointer-events: none; z-index: 5; transition: 0.3s; opacity: 0.1; }
         .string-line.active { opacity: 1; box-shadow: 0 2px 5px rgba(0,0,0,0.8); }
-        
-        .s-re { top: 22%; height: 2px; background: #e0e0e0; } /* דק */
+        .s-re { top: 22%; height: 2px; background: #e0e0e0; } 
         .s-la { top: 42%; height: 3px; background: #b0b0b0; }
-        .s-fa { top: 62%; height: 4px; background: #8d6e63; border-bottom: 1px solid #3e2723; } /* מלופף */
-        .s-do { top: 82%; height: 5px; background: #6d4c41; border-bottom: 1px solid #3e2723; } /* מלופף עבה */
+        .s-fa { top: 62%; height: 4px; background: #8d6e63; border-bottom: 1px solid #3e2723; }
+        .s-do { top: 82%; height: 5px; background: #6d4c41; border-bottom: 1px solid #3e2723; }
 
-        /* שמות מיתרים בצד */
         .string-names {
             position: sticky; left: 0; z-index: 100; height: 100%; width: 55px;
             background: #111; border-right: 4px solid #d4af37; color: #d4af37; font-weight: bold;
@@ -121,28 +109,15 @@
         }
         .s-label { height: 25%; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #222; }
 
-        /* סריגים (Frets) */
         .fret {
-            flex: 0 0 90px; /* רוחב קבוע */
-            border-right: 5px solid #bbb; /* גוף הסריג */
-            border-image: linear-gradient(to right, #444, #fff, #444) 1; /* ברק מתכתי */
+            flex: 0 0 90px; border-right: 5px solid #bbb; 
+            border-image: linear-gradient(to right, #444, #fff, #444) 1;
             position: relative; display: flex; flex-direction: column;
         }
-        .fret.is-zero { 
-            flex: 0 0 65px; background: #181818; 
-            border-right: 12px solid #ecf0f1; /* הנאט הלבן */
-            border-image: none; 
-        }
+        .fret.is-zero { flex: 0 0 65px; background: #181818; border-right: 12px solid #ecf0f1; border-image: none; }
         .fret-num { position: absolute; top: -35px; width: 100%; text-align: center; color: #666; font-weight: bold; font-family: monospace; font-size: 14px; }
-        
-        /* נקודות פנינה */
-        .inlay-dot { 
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            width: 20px; height: 20px; background: radial-gradient(circle at 30% 30%, #fff, #888);
-            border-radius: 50%; pointer-events: none; opacity: 0.8; box-shadow: 0 0 10px #000;
-        }
+        .inlay-dot { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; background: radial-gradient(circle at 30% 30%, #fff, #888); border-radius: 50%; pointer-events: none; opacity: 0.8; box-shadow: 0 0 10px #000; }
 
-        /* תווים סטטיים */
         .static-note {
             position: absolute; width: 100%; text-align: center; font-size: 13px; font-weight: bold;
             color: rgba(255,255,255,0.2); text-shadow: 1px 1px 2px #000;
@@ -150,22 +125,15 @@
         }
         .pos-0 { top: 22%; } .pos-1 { top: 42%; } .pos-2 { top: 62%; } .pos-3 { top: 82%; }
 
-        /* סימוני סולם */
         .scale-mark { color: #3498db !important; opacity: 1 !important; text-shadow: 0 0 10px #3498db; z-index: 10; font-size: 15px; }
-        .scale-mark::after {
-            content: ''; position: absolute; width: 36px; height: 36px; border: 2px solid #3498db; border-radius: 50%;
-            top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1;
-            box-shadow: inset 0 0 15px rgba(52, 152, 219, 0.4); background: rgba(0,0,0,0.3);
-        }
+        .scale-mark::after { content: ''; position: absolute; width: 36px; height: 36px; border: 2px solid #3498db; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1; box-shadow: inset 0 0 15px rgba(52, 152, 219, 0.4); background: rgba(0,0,0,0.3); }
         .microtone-mark { color: #00e676 !important; text-shadow: 0 0 10px #00e676; }
         .microtone-mark::after { border-color: #00e676 !important; }
 
-        /* אזורי לחיצה */
         .click-zone { position: absolute; width: 100%; height: 25%; left: 0; cursor: pointer; z-index: 20; transition: background 0.1s; }
         .cz-0 { top: 10%; } .cz-1 { top: 35%; } .cz-2 { top: 60%; } .cz-3 { top: 85%; }
         .click-zone:hover { background-color: rgba(255,255,255,0.08); }
 
-        /* הסמן האדום הפעיל */
         .marker {
             width: 48px; height: 48px; background: radial-gradient(circle at 30% 30%, #e74c3c, #c0392b);
             border: 2px solid white; border-radius: 50%; position: absolute; left: 50%; transform: translate(-50%, -50%); z-index: 50; 
@@ -174,7 +142,7 @@
             flex-direction: column; line-height: 1.1;
         }
 
-        /* --- אזור תחתון --- */
+        /* --- תחתית --- */
         .bottom-container { width: 95%; max-width: 1400px; display: flex; gap: 20px; flex-wrap: wrap; }
         .editor-panel { flex: 2; background: #1a1a1a; padding: 20px; border-radius: 15px; border-top: 2px solid #333; display: flex; gap: 15px; align-items: center; min-width: 300px; }
         .library-panel { flex: 1; background: #1a1a1a; padding: 20px; border-radius: 15px; border-top: 2px solid #333; min-width: 250px; display: flex; flex-direction: column; gap: 10px; }
@@ -183,26 +151,20 @@
             flex-grow: 1; background: #000; border: 1px solid #333; padding: 10px; 
             overflow-x: auto; border-radius: 10px; white-space: nowrap; height: 90px; display: flex; align-items: center;
         }
-        
         .note-chip { 
             display: inline-flex; flex-direction: column; justify-content: center; position: relative;
             background: #333; width: 65px; height: 70px; margin-right: 8px; border-radius: 8px; 
-            border-bottom: 3px solid #f39c12; text-align: center; cursor: pointer; color: #ccc; transition: 0.2s; font-size: 13px;
-            flex-shrink: 0;
+            border-bottom: 3px solid #f39c12; text-align: center; cursor: pointer; color: #ccc; transition: 0.2s; font-size: 13px; flex-shrink: 0;
         }
-        .note-chip b { font-size: 15px; color: white; display: block; margin-bottom: 2px; }
         .note-chip.active { background: #f39c12; color: black; border-color: white; transform: scale(1.1); box-shadow: 0 0 15px #f39c12; }
         .note-chip.active b { color: black; }
-        
+        .note-chip b { font-size: 15px; color: white; display: block; margin-bottom: 2px; }
         .chip-finger { width: 18px; height: 18px; background: #d4af37; color: black; border-radius: 50%; font-size: 11px; line-height: 18px; margin: 4px auto 0; font-weight: bold; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
         .chip-del { position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; background: #c0392b; color: white; border-radius: 50%; font-size: 12px; line-height: 18px; cursor: pointer; display: none; z-index: 10;}
         .note-chip:hover .chip-del { display: block; }
-        .chip-micro { border-bottom-color: #00e676; }
 
         .btn-act { padding: 10px 15px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; color: white; font-size: 13px; background: #444; }
         .btn-act:hover { filter: brightness(1.2); }
-        .btn-act.highlight { background: #3498db; }
-        
         .saved-list { background: #000; border: 1px solid #333; border-radius: 8px; height: 180px; overflow-y: auto; padding: 5px; }
         .saved-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #222; color: #aaa; font-size: 14px; cursor: pointer; transition: 0.2s; }
         .saved-item:hover { background: #222; color: white; padding-right: 15px; }
@@ -220,8 +182,8 @@
 </head>
 <body>
 
-    <h1>BOUZOUKI STUDIO <span>FINAL</span></h1>
-    <div class="subtitle">הגרסה המתוקנת: עיצוב Elite + כל הפיצ'רים + יבוא חכם</div>
+    <h1>BOUZOUKI STUDIO <span>ELITE</span></h1>
+    <div class="subtitle">Complete Edition + Fixed Import & BPM</div>
 
     <div class="import-toolbar">
         <button class="btn-tool" onclick="openModal('tab')">📥 יבוא טאב (D-A-F-C)</button>
@@ -262,7 +224,7 @@
         </div>
 
         <div class="control-group" style="flex-grow: 1;">
-            <div class="lbl">סולם / מאקם (מורחב)</div>
+            <div class="lbl">סולם / מאקם</div>
             <div style="display:flex; gap:5px; width:100%;">
                 <select id="scaleSelect" onchange="handleScaleChange()" style="flex-grow:1; text-align: right;">
                     <option value="none">-- הצג הכל --</option>
@@ -296,6 +258,16 @@
                     <button class="btn-small" style="color:#f1c40f" onclick="saveAsNewMode()">⭐</button>
                 </div>
             </div>
+        </div>
+
+        <div class="control-group">
+            <div class="lbl">שירים מובנים</div>
+            <select id="builtinSongs" onchange="loadBuiltinSong()" style="width: 140px; background:#222;">
+                <option value="none">-- בחר --</option>
+                <option value="zorba">זורבה היווני</option>
+                <option value="misirlou">מיסירלו (חיג'אז)</option>
+                <option value="zeibekiko">זבקיקו (אינטרו)</option>
+            </select>
         </div>
 
         <div class="control-group">
@@ -348,7 +320,7 @@
         <div class="modal-content" dir="rtl">
             <span class="close-modal" onclick="closeModal('tab')">&times;</span>
             <h2 style="color:#d4af37; margin:0;">יבוא טאב (D-A-F-C)</h2>
-            <p style="color:#888; font-size:13px;">הדבק כאן טאב שמכיל את האותיות D, A, F, C ומספרים (גם עם קווים).</p>
+            <p style="color:#888; font-size:13px;">הדבק כאן טאב שמכיל את האותיות D, A, F, C ומספרים.</p>
             <textarea id="inputTab" class="tab-area" placeholder="D---5--5--..."></textarea>
             <button class="btn-modal-action" onclick="parseTab()">תרגם לנגינה</button>
         </div>
@@ -359,7 +331,7 @@
             <span class="close-modal" onclick="closeModal('notes')">&times;</span>
             <h2 style="color:#d4af37; margin:0;">יבוא תווים (C D E)</h2>
             <div style="color:#888; font-size:13px;">
-                כתוב אותיות באנגלית. המערכת תבחר אוטומטית מיתר.<br>
+                כתוב אותיות באנגלית. המערכת תחשב מיקום אופטימלי.<br>
                 אותיות גדולות (C D E) = נמוך (אוקטבה 3/4)<br>
                 אותיות קטנות (c d e) = גבוה (אוקטבה 4/5)
             </div>
@@ -369,6 +341,7 @@
     </div>
 
     <script>
+        // === Data ===
         const chromaticHE = ["דו", "דו#", "רה", "מי-ב", "מי", "פה", "פה#", "סול", "סול#", "לה", "סי-ב", "סי"];
         const chromaticEN = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B"];
         const stringStartNotes = [2, 9, 5, 0]; 
@@ -383,12 +356,18 @@
             'hijaz_arabic': [0, 1, 4, 5, 7, 8, 10], 'kurd_arabic': [0, 1, 3, 5, 7, 8, 10]
         };
 
+        const songsDB = {
+            'zorba': "E5 E6 E5 E6 E5 A0 A1 A2 A3 A4 A5 D2 D3 D4 D5", 
+            'misirlou': "D0 D1 D4 D5 D7 D8 D11 D8 D7 D5 D4 D1 D0",
+            'zeibekiko': "A0 A2 A3 A2 A0 F2 F4 F5 F4 F2 C0 C2 C4"
+        };
+
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let melody = [];
         let isPlaying = false;
         let playTimeout = null; 
         let currentNoteIndex = 0;
-        let library = JSON.parse(localStorage.getItem('bouzouki_complete_lib') || '{}');
+        let library = JSON.parse(localStorage.getItem('bouzouki_elite_lib') || '{}');
         let userModes = JSON.parse(localStorage.getItem('bouzouki_user_modes_v2') || '{}');
         let isEditMode = false;
         let customMap = [];
@@ -414,7 +393,7 @@
             }
         }
 
-        // === Import Logic ===
+        // === Import (Fixed Logic) ===
         function openModal(type) { document.getElementById(type==='tab'?'modalTab':'modalNotes').style.display = 'block'; }
         function closeModal(type) { document.getElementById(type==='tab'?'modalTab':'modalNotes').style.display = 'none'; }
         
@@ -423,10 +402,8 @@
             if(!text.trim()) return;
             resetMelody();
             
-            // בדיקת סוג טאב (פשוט או מורכב)
             const lines = text.split('\n');
             let tracks = { D: "", A: "", F: "", C: "" };
-            
             let hasComplex = false;
             lines.forEach(line => {
                 let l = line.trim();
@@ -437,7 +414,6 @@
             });
 
             if(!hasComplex) {
-                // פורמט פשוט D5 A3
                 const regex = /([DAFC])\s*[-]*\s*(\d+)/gi;
                 [...text.matchAll(regex)].forEach(m => {
                     let s = (m[1].toUpperCase()==='D')?0:(m[1].toUpperCase()==='A')?1:(m[1].toUpperCase()==='F')?2:3;
@@ -445,7 +421,6 @@
                     if(f>=0 && f<=19) addNote(s, f, false);
                 });
             } else {
-                // פורמט מורכב (עמודות)
                 const maxLen = Math.max(tracks.D.length, tracks.A.length, tracks.F.length, tracks.C.length);
                 for(let i=0; i<maxLen; i++) {
                     checkChar(0, tracks.D[i]);
@@ -454,7 +429,6 @@
                     checkChar(3, tracks.C[i]);
                 }
             }
-            
             updateCustomMapFromMelody();
             renderNeck(); renderTimeline(); closeModal('tab');
             if(melody.length>0) togglePlay();
@@ -467,30 +441,51 @@
             }
         }
 
+        // --- NEW Note Parser (Robust) ---
         function parseNotes() {
             const text = document.getElementById('inputNotes').value.trim();
             if(!text) return; resetMelody();
+            
             const tokens = text.replace(/,/g, ' ').split(/\s+/);
-            const noteMap = { 'C':0, 'C#':1, 'D':2, 'D#':3, 'E':4, 'F':5, 'F#':6, 'G':7, 'G#':8, 'A':9, 'A#':10, 'B':11 };
+            const notesMap = { 'C':0, 'C#':1, 'D':2, 'D#':3, 'E':4, 'F':5, 'F#':6, 'G':7, 'G#':8, 'A':9, 'A#':10, 'B':11 };
+
             tokens.forEach(token => {
-                let t = token.toUpperCase().replace('♯','#').replace('♭','b');
-                let isHigh = (token[0] === token[0].toLowerCase()); 
-                let baseVal = noteMap[t];
-                if(baseVal !== undefined) {
-                    let bestS = 3, bestF = 0; 
-                    for(let s=0; s<4; s++) {
-                        let strBase = stringBaseVals[s];
-                        let f = (baseVal - (strBase % 12) + 12) % 12;
-                        if(f>12) f-=12; if(f<0) f+=12;
-                        if(isHigh && s>1) continue; 
-                        if(f <= 15) { bestS = s; bestF = f; break; }
+                let cleanToken = token.toUpperCase().replace(/[0-9'"]/g, '').replace('♯','#').replace('♭','B');
+                let basePitch = notesMap[cleanToken];
+                
+                if (basePitch !== undefined) {
+                    let isHigh = (token[0] === token[0].toLowerCase());
+                    let targetVal = basePitch + (isHigh ? 12 : 0);
+                    let found = false;
+                    let stringOrder = isHigh ? [0, 1, 2, 3] : [3, 2, 1, 0];
+                    
+                    for (let s of stringOrder) {
+                        let sBase = stringBaseVals[s];
+                        let fret = targetVal - sBase;
+                        if (fret < 0) { // Try higher octave if negative
+                             fret += 12; 
+                        }
+                        if (fret >= 0 && fret <= 19) {
+                            addNote(s, fret, false);
+                            found = true;
+                            break; 
+                        }
                     }
-                    addNote(bestS, bestF, false);
+                    // Fallback
+                    if (!found) {
+                        for (let s of [0, 1]) { 
+                             let fret = (targetVal + 12) - stringBaseVals[s];
+                             if (fret >= 0 && fret <= 19) {
+                                addNote(s, fret, false);
+                                break;
+                             }
+                        }
+                    }
                 }
             });
             updateCustomMapFromMelody();
             renderNeck(); renderTimeline(); closeModal('notes');
-            if(melody.length>0) togglePlay();
+            if(melody.length > 0) togglePlay();
         }
 
         function updateCustomMapFromMelody() {
@@ -500,6 +495,13 @@
                 if(!customMap.includes(key)) customMap.push(key);
             });
             document.getElementById('scaleSelect').value = 'custom';
+        }
+
+        function loadBuiltinSong() {
+            const key = document.getElementById('builtinSongs').value;
+            if(key==='none') return;
+            document.getElementById('inputTab').value = songsDB[key];
+            parseTab();
         }
 
         // --- Render ---
@@ -540,7 +542,7 @@
                                 if (userModes[scaleName].includes(`${s}-${f}`)) isScale = true;
                             } else if (scales[scaleName]) {
                                 const interval = (val - rootNote + 24) % 12;
-                                if(scales[scaleName].includes(interval)) isScale = true;
+                                if (scales[scaleName].includes(interval)) isScale = true;
                                 else if (scales[scaleName].includes(interval + 0.5)) { isScale = true; isMicro = true; }
                             }
                         }
@@ -561,65 +563,7 @@
             }
         }
 
-        // --- Scale & Edit ---
-        function toggleEditMode() {
-            const scaleName = document.getElementById('scaleSelect').value;
-            if (scaleName !== 'custom' && scaleName !== 'none') {
-                importScaleToCustom(scaleName);
-                document.getElementById('scaleSelect').value = 'custom';
-            }
-            isEditMode = !isEditMode;
-            document.getElementById('editBtn').style.background = isEditMode ? "#3498db" : "#444";
-            renderNeck();
-        }
-
-        function importScaleToCustom(scaleName) {
-            customMap = [];
-            const rootNote = parseInt(document.getElementById('rootSelect').value);
-            for(let s=0; s<4; s++) {
-                for(let f=0; f<=19; f++) {
-                    const val = getNoteValue(s, f);
-                    let include = false;
-                    if (userModes[scaleName]) {
-                        if (userModes[scaleName].includes(`${s}-${f}`)) include = true;
-                    } else if (scales[scaleName]) {
-                        const interval = (val - rootNote + 24) % 12;
-                        if(scales[scaleName].includes(interval) || scales[scaleName].includes(interval+0.5)) include = true;
-                    }
-                    if(include) customMap.push(`${s}-${f}`);
-                }
-            }
-        }
-
-        function saveAsNewMode() {
-            if (document.getElementById('scaleSelect').value !== 'custom') importScaleToCustom(document.getElementById('scaleSelect').value);
-            const name = prompt("שם המודוס החדש:");
-            if(name) {
-                userModes[name] = [...customMap];
-                localStorage.setItem('bouzouki_user_modes_v2', JSON.stringify(userModes));
-                refreshUserModes();
-                document.getElementById('scaleSelect').value = name;
-                isEditMode = false; 
-                renderNeck();
-            }
-        }
-
-        function refreshUserModes() {
-            const group = document.getElementById('userModesGroup'); group.innerHTML = "";
-            Object.keys(userModes).forEach(k => {
-                const opt = document.createElement('option'); opt.value = k; opt.innerText = k; group.appendChild(opt);
-            });
-        }
-
-        function handleScaleChange() {
-            stop(); melody = [];
-            if(isEditMode) { isEditMode = false; document.getElementById('editBtn').style.background="#444"; }
-            renderNeck();
-            const val = document.getElementById('scaleSelect').value;
-            if (val !== 'none' && val !== 'custom') generateScaleRun();
-            else renderTimeline();
-        }
-
+        // --- Logic ---
         function handleFretClick(s, f, micro) {
             if (isEditMode) {
                 const key = `${s}-${f}`;
@@ -633,7 +577,6 @@
             playTone(val); showMarker(s, f, micro); renderTimeline();
         }
 
-        // --- Helpers ---
         function calculateNote(s, f) {
             const idx = (stringStartNotes[s] + f) % 12;
             return { he: chromaticHE[idx], en: chromaticEN[idx] };
@@ -672,7 +615,6 @@
         }
 
         function removeLast() { stop(); melody.pop(); renderTimeline(); }
-        function deleteNote(index, event) { event.stopPropagation(); melody.splice(index, 1); renderTimeline(); }
         function resetMelody() { stop(); melody=[]; renderTimeline(); }
 
         function renderTimeline() {
@@ -688,6 +630,7 @@
             });
             tl.scrollLeft = 0;
         }
+        function deleteNote(index, event) { event.stopPropagation(); melody.splice(index, 1); renderTimeline(); }
 
         function generateScaleRun() {
             const root = parseInt(document.getElementById('rootSelect').value);
@@ -721,7 +664,7 @@
             renderTimeline();
         }
 
-        // --- BPM Logic (Fixed) ---
+        // --- BPM Logic (Real-time Fix) ---
         function togglePlay() { if(isPlaying) stop(); else play(); }
         function play() {
             if(melody.length===0) return;
@@ -743,6 +686,7 @@
             const chip = document.getElementById('chip-'+currentNoteIndex);
             if(chip) { chip.classList.add('active'); chip.scrollIntoView({behavior:'smooth', inline:'center'}); }
             currentNoteIndex++;
+            // Read delay directly from slider here for realtime update
             const delay = document.getElementById('tempoSlider').value;
             playTimeout = setTimeout(playStep, delay);
         }
@@ -754,6 +698,43 @@
             document.querySelectorAll('.note-chip').forEach(e=>e.classList.remove('active'));
         }
 
+        // --- Scale & Edit ---
+        function toggleEditMode() {
+            const sName = document.getElementById('scaleSelect').value;
+            if(sName!=='custom' && sName!=='none') { importScaleToCustom(sName); document.getElementById('scaleSelect').value='custom'; }
+            isEditMode = !isEditMode;
+            document.getElementById('editBtn').style.background = isEditMode ? "#3498db" : "#444";
+            renderNeck();
+        }
+        function importScaleToCustom(sName) {
+            customMap = [];
+            const root = parseInt(document.getElementById('rootSelect').value);
+            for(let s=0; s<4; s++) {
+                for(let f=0; f<=19; f++) {
+                    const v = getNoteValue(s,f);
+                    let inc = false;
+                    if(scales[sName]) {
+                        const interval = (v - root + 24) % 12;
+                        if(scales[sName].includes(interval) || scales[sName].includes(interval+0.5)) inc=true;
+                    }
+                    if(inc) customMap.push(`${s}-${f}`);
+                }
+            }
+        }
+        function saveAsNewMode() {
+            if(document.getElementById('scaleSelect').value!=='custom') importScaleToCustom(document.getElementById('scaleSelect').value);
+            const name = prompt("שם המודוס:");
+            if(name) {
+                userModes[name] = [...customMap];
+                localStorage.setItem('bouzouki_user_modes_v2', JSON.stringify(userModes));
+                refreshUserModes(); document.getElementById('scaleSelect').value=name; isEditMode=false; renderNeck();
+            }
+        }
+        function refreshUserModes() {
+            const g = document.getElementById('userModesGroup'); g.innerHTML="";
+            Object.keys(userModes).forEach(k=>{ const o=document.createElement('option'); o.value=k; o.innerText=k; g.appendChild(o); });
+        }
+
         // --- Library ---
         function refreshLib() {
             const div = document.getElementById('savedList'); div.innerHTML = "";
@@ -763,7 +744,7 @@
         }
         function saveSong() {
             const n = document.getElementById('saveName').value;
-            if(n && melody.length>0) { library[n]=melody; localStorage.setItem('bouzouki_complete_lib',JSON.stringify(library)); refreshLib(); }
+            if(n && melody.length>0) { library[n]=melody; localStorage.setItem('bouzouki_elite_lib',JSON.stringify(library)); refreshLib(); }
         }
         function loadSong(k) {
             stop();
@@ -773,7 +754,7 @@
                 renderNeck(); renderTimeline(); 
             }
         }
-        function delSong(k) { if(confirm("למחוק?")) { delete library[k]; localStorage.setItem('bouzouki_complete_lib', JSON.stringify(library)); refreshLib(); } }
+        function delSong(k) { if(confirm("למחוק?")) { delete library[k]; localStorage.setItem('bouzouki_elite_lib', JSON.stringify(library)); refreshLib(); } }
 
         init();
     </script>
